@@ -26,6 +26,8 @@
 #include <memory>
 #include <ctime>
 #include <cstdlib>
+#include <algorithm>
+#include <execution>
 
 
 // I suppose you could have a matrix of strings, but it would make no sense
@@ -182,11 +184,12 @@ template <class T> class matrix
                 m_rows = other.m_rows;
                 m_columns = other.m_columns;
                 m_data = new T[m_rows * m_columns];
-                
-                for (uint32_t i = 0; i < m_rows * m_columns; i++)
+
+                std::for_each(std::execution::par, m_data, m_rows * m_columns, [](T& other.m_data) 
                 {
                     m_data[i] = other.m_data[i];
-                }
+                });
+
             }
             else
             {
@@ -215,10 +218,17 @@ template <class T> matrix<T>::matrix(const matrix& other)
     m_columns = other.m_columns;
     m_data = new T[m_rows * m_columns];
 
+    /*
     for (uint32_t i = 0; i < m_rows * m_columns; ++i)
     {
         m_data[i] = other.m_data[i];
     }
+    */
+
+    std::for_each(std::execution::par, m_data, m_rows * m_columns, [](T& other.m_data) 
+    {
+        m_data[i] = other.m_data[i];
+    });
 }
 
 template <class T> matrix<T>::matrix(const uint32_t& rows, const uint32_t& columns)
@@ -261,14 +271,12 @@ template <class T> matrix<T>::matrix(T* data, const uint32_t& rows, const uint32
     m_rows = rows;
     m_columns = columns;
 
-
     m_data = new T[m_rows*m_columns];
 
-    for(uint32_t iIter = 0; iIter < m_rows * m_columns; iIter++)
+    std::for_each(std::execution::par, m_data, m_rows * m_columns, [](T& data) 
     {
-        m_data[iIter] = data[iIter];
-    }
-
+        m_data[i] = data[i];
+    });
 }
 
 template <class T> matrix<T>::~matrix()
@@ -306,6 +314,11 @@ template <class T> void matrix<T>::set(T* data)
     }
 
     m_data = new T[m_rows * m_columns];
+
+    std::for_each(std::execution::par, m_data, m_rows * m_columns, [](T& data) 
+    {
+        m_data[i] = data[i];
+    });
 
     for(uint32_t iIter = 0; iIter < m_rows * m_columns; iIter++)
     {

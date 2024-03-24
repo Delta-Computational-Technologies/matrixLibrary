@@ -611,3 +611,28 @@ TEST(matrixTest, test_multiply_tall_with_wide_matrix_float)
         }
     }
 }
+
+TEST(matrixTest, test_create_empty_matrix)
+{
+    const uint32_t rows = 3;
+    const uint32_t columns = 4;
+    
+    uint32_t expected[rows * columns] 
+    { 
+
+    };
+    
+    matrix<uint32_t> dutMatrix(rows, columns);
+
+    //print out matrix before transpose
+    std::cout<<"matrix after instantiation"<<std::endl;
+    dutMatrix.print();
+
+    for(uint32_t iIter = 0; iIter < rows; iIter++)
+    {
+        for(uint32_t jIter = 0; jIter < columns; jIter++)
+        {
+            EXPECT_EQ(dutMatrix.at(iIter,jIter), expected[iIter + jIter]);
+        }
+    }
+}
