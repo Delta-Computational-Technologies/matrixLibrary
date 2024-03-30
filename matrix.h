@@ -165,7 +165,8 @@ template <class T> class matrix
         static matrix<T> transpose(const matrix& A);
         /**
          * @brief transpose the matrix using multiple threads, C = A^T
-         * @details rows become columns, columns become rows
+         * @details rows become columns, columns become rows. 
+         *          Efficient on very large matrices such as 1000x1000.
          * @param A matrix A
          * @return the resultant matrix of the transpose, matrix C
         */
