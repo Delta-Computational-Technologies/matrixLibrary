@@ -12,6 +12,8 @@ jobs:
     steps: 
     # checkout our repository
     - uses: actions/checkout@v4
+    - name: install gtest manually
+      run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
     - name: run cmake
       run: |
         cd unitTest
@@ -21,7 +23,9 @@ jobs:
         cd unitTest
         make
     - name: test
-      run: ./matrixTest
+      run: |
+        cd unitTest
+        ./matrixTest
 
     #- run: cd {{github.workspace}}/unitTest
     #- run: ./matrixTest
