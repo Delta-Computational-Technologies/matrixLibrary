@@ -18,6 +18,15 @@ FetchContent_Declare(
 enable_testing()
 
 target_link_libraries(${PROJECT_NAME} gtest gtest_main pthread)
+
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}
+  PROPERTIES
+    LABELS "unit"
+  DISCOVERY_TIMEOUT  # how long to wait (in seconds) before crashing
+    240
+  )
+
 #target_link_libraries(${PROJECT_NAME} matrix)
 #include(GoogleTest)
 #add_test(NAME matrixTest COMMAND mTest)
