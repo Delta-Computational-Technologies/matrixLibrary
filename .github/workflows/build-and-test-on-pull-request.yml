@@ -17,7 +17,9 @@ jobs:
         cd unitTest
         cmake .
     - name: build tests
-      run: make
+      run: |
+        cd unitTest
+        make
     - name: test
       run: ./matrixTest
 
