@@ -13,8 +13,8 @@ jobs:
     # checkout our repository
     - uses: actions/checkout@v3
     # go to unit test directory
-    - run: cd ${{github.workspace}}/unitTest
-    # run cmake
-    - run: cmake .
-    - run: make
-    - run: ./matrixTest
+    - run: |
+        cd ${{github.workspace}}/unitTest
+        cmake .
+        make
+        ./matrixTest
