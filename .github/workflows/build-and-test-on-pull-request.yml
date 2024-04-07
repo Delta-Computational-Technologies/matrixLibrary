@@ -1,0 +1,20 @@
+# Copyright (C) 2024 Delta Computational Technologies
+# Build and test for GCC on linux 
+name: buildAndTest
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    # checkout our repository
+    - uses: actions/checkout@v3
+    # go to unit test directory
+    - run: |
+        cd ${{github.workspace}}/unitTest
+        cmake .
+        make
+        ./matrixTest
