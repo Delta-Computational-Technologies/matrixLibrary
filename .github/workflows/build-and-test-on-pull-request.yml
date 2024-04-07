@@ -17,7 +17,7 @@ jobs:
     # checkout our repository
     - uses: actions/checkout@v4
     - name: run cmake
-      run: cmake -B ${{github.workspace}}/unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -S ${{github.workspace}}/unitTest -B ${{github.workspace}}/unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
       run: cmake --build ${{github.workspace}}/unitTest --config ${{env.BUILD_TYPE}}
     - name: run test
