@@ -22,7 +22,7 @@ jobs:
       run: cmake --build ${{github.workspace}} --config ${{env.BUILD_TYPE}}
     - name: test
       working-directory: ${{github.workspace}}
-      run: ./matrixTest
+      run: matrixTest
 
     #- run: cd {{github.workspace}}/unitTest
     #- run: ./matrixTest
