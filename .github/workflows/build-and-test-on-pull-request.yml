@@ -17,12 +17,12 @@ jobs:
     # checkout our repository
     - uses: actions/checkout@v3
     - name: run cmake
-      run: cmake -B ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
-      run: cmake --build ${{github.workspace}} --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/unitTest --config ${{env.BUILD_TYPE}}
     - name: test
-      working-directory: ${{github.workspace}}
-      run: matrixTest
+      working-directory: ${{github.workspace}}/unitTest
+      run: ./matrixTest
 
     #- run: cd {{github.workspace}}/unitTest
     #- run: ./matrixTest
