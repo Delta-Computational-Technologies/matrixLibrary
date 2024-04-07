@@ -12,8 +12,8 @@ jobs:
     steps: 
     # checkout our repository
     - uses: actions/checkout@v3
-    - run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-    #- run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    - run: cmake -B ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    #- run: cmake --build {{github.workspace}}/build --config {{env.BUILD_TYPE}}
     #- run: cd {{github.workspace}}/unitTest
     #- run: ./matrixTest
     # go to unit test directory
