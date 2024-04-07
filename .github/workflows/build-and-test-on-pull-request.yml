@@ -15,6 +15,6 @@ jobs:
     # go to unit test directory
     - run: cd ${{github.workspace}}/unitTest
     # run cmake
-    - run: cmake
+    - run: cmake .
     - run: make
     - run: ./matrixTest
