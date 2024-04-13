@@ -10,11 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 FetchContent_Declare(
-  googletest
+  gtest
   # Specify the commit you depend on and update it regularly.
   URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
 )
-
+FetchContent_MakeAvailable(gtest)
 enable_testing()
 
 target_link_libraries(${PROJECT_NAME} gtest gtest_main pthread)
