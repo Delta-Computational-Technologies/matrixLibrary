@@ -13,9 +13,18 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: gcc:9.4.0
+
     steps: 
     # checkout our repository
     - uses: actions/checkout@v4
+    - name: Install CMake
+      run: |
+        wget https://github.com/Kitware/CMake/releases/download/v3.29.2/cmake-3.29.2-linux-x86_64.sh
+        chmod +x cmake-3.29.2-linux-x86_64.sh
+        ./cmake-3.29.2-linux-x86_64.sh --skip-license --prefix=/usr/local
+        
     - name: run cmake
       run: cmake -S ${{github.workspace}}/unitTest -B ${{github.workspace}}/unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
