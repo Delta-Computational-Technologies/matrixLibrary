@@ -18,7 +18,7 @@ jobs:
 
     steps: 
     # checkout our repository
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     - name: Tree
       run: |
         apt update
@@ -30,6 +30,10 @@ jobs:
         chmod +x cmake-3.29.2-linux-x86_64.sh
         ./cmake-3.29.2-linux-x86_64.sh --skip-license --prefix=/usr/local
         tree
+        ls
+        ls -a ~/
+        echo ${{github.workspace}}
+        echo $GITHUB_WORKSPACE 
     - name: run cmake
       run: cmake -S ${{github.workspace}}/unitTest -B ${{github.workspace}}/unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
