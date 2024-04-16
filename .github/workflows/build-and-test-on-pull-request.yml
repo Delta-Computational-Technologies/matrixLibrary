@@ -37,9 +37,9 @@ jobs:
     - name: run cmake
       run: cmake -S unitTest -B unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
-      run: cmake --build ${{github.workspace}}/unitTest --config ${{env.BUILD_TYPE}}
+      run: cmake --build unitTest --config ${{env.BUILD_TYPE}}
     - name: run test
-      working-directory: ${{github.workspace}}/unitTest
+      working-directory: unitTest
       run: ctest -C ${{env.BUILD_TYPE}}
 
     #- run: cd {{github.workspace}}/unitTest
