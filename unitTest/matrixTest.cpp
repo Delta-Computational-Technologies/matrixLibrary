@@ -17,6 +17,10 @@
  */
 
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <chrono>
+#include <fstream>
 #include <gtest/gtest.h>
 
 #include "matrix.h"
@@ -52,7 +56,10 @@ TEST(matrixTest, test_transpose_function_square_matrix)
     std::cout<<"matrix before transpose"<<std::endl;
     dutMatrix.print();
 
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     result = matrix<uint32_t>::transpose(dutMatrix);
+    std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
+    std::cout<<"standard transpose took "<<std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count()<<" us"<<std::endl;
 
     //print out matrix after transpose
     std::cout<<"matrix after transpose"<<std::endl;
@@ -612,14 +619,16 @@ TEST(matrixTest, test_multiply_tall_with_wide_matrix_float)
     }
 }
 
-TEST(matrixTest, test_create_empty_matrix)
+TEST(matrixTest, test_create_empty_3_by_4_matrix)
 {
     const uint32_t rows = 3;
     const uint32_t columns = 4;
     
     uint32_t expected[rows * columns] 
     { 
-
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
     };
     
     matrix<uint32_t> dutMatrix(rows, columns);
@@ -633,6 +642,62 @@ TEST(matrixTest, test_create_empty_matrix)
         for(uint32_t jIter = 0; jIter < columns; jIter++)
         {
             EXPECT_EQ(dutMatrix.at(iIter,jIter), expected[iIter + jIter]);
+        }
+    }
+}
+
+TEST(matrixTest, test_create_empty_matrix_no_params)
+{
+    matrix<uint32_t> dutMatrix;
+
+    //print out matrix before transpose
+    std::cout<<"matrix after instantiation"<<std::endl;
+    //should be empty
+    dutMatrix.print();
+    testing::internal::CaptureStdout();
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_STREQ(output.c_str(), "");
+}
+
+TEST(matrixTest, compare_run_times_of_transpose_functions_of_very_large_matrices)
+{
+    const uint32_t rows = 1000;
+    const uint32_t columns = 1000;
+    
+    uint32_t dutArray[rows * columns];
+
+    std::fstream fileStream("testResources/1000x1000IntegerMatrix.txt", std::fstream::in);
+    if(!fileStream)
+    {
+        FAIL() << "Failed to open file testResources/1000x1000IntegerMatrix.txt";
+    }
+
+    for(uint32_t iIter = 0; iIter < (rows * columns); iIter++)
+    {
+        uint32_t temp = 0;
+        fileStream >> temp;
+        dutArray[iIter] = temp;
+    }
+
+    matrix<uint32_t> dutMatrix(dutArray, rows, columns);
+    matrix<uint32_t> standardTransposeResult;
+    matrix<uint32_t> threadedTransposeResult;
+
+    std::chrono::steady_clock::time_point startStandardTranspose = std::chrono::steady_clock::now();
+    standardTransposeResult = matrix<uint32_t>::transpose(dutMatrix);
+    std::chrono::steady_clock::time_point stopStandardTranspose = std::chrono::steady_clock::now();
+    std::cout<<"standard transpose took "<<std::chrono::duration_cast<std::chrono::microseconds>(stopStandardTranspose - startStandardTranspose).count()<<" us"<<std::endl;
+
+    std::chrono::steady_clock::time_point startThreadedTranspose = std::chrono::steady_clock::now();
+    threadedTransposeResult = matrix<uint32_t>::threadedTranspose(dutMatrix);
+    std::chrono::steady_clock::time_point stopThreadedTranspose = std::chrono::steady_clock::now();
+    std::cout<<"threaded transpose took "<<std::chrono::duration_cast<std::chrono::microseconds>(stopThreadedTranspose - startThreadedTranspose).count()<<" us"<<std::endl;
+
+    for(uint32_t iIter = 0; iIter < rows; iIter++)
+    {
+        for(uint32_t jIter = 0; jIter < columns; jIter++)
+        {
+            EXPECT_EQ(standardTransposeResult.at(iIter, jIter), threadedTransposeResult.at(iIter, jIter));
         }
     }
 }
