@@ -20,7 +20,10 @@ jobs:
     # checkout our repository
     - uses: actions/checkout@v4
     - name: Tree
-      run: tree
+      run: |
+        apt update
+        apt-get install tree -y
+        tree
     - name: Install CMake
       run: |
         wget https://github.com/Kitware/CMake/releases/download/v3.29.2/cmake-3.29.2-linux-x86_64.sh
