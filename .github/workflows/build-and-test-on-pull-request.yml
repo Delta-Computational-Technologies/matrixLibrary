@@ -18,22 +18,12 @@ jobs:
 
     steps: 
     # checkout our repository
-    - uses: actions/checkout@v3
-    - name: Tree
-      run: |
-        apt update
-        apt-get install tree -y
-        tree
+    - uses: actions/checkout@v4
     - name: Install CMake
       run: |
         wget https://github.com/Kitware/CMake/releases/download/v3.29.2/cmake-3.29.2-linux-x86_64.sh
         chmod +x cmake-3.29.2-linux-x86_64.sh
         ./cmake-3.29.2-linux-x86_64.sh --skip-license --prefix=/usr/local
-        tree
-        ls
-        ls -a ~/
-        echo ${{github.workspace}}
-        echo $GITHUB_WORKSPACE 
     - name: run cmake
       run: cmake -S unitTest -B unitTest -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: build tests
@@ -41,14 +31,3 @@ jobs:
     - name: run test
       working-directory: unitTest
       run: ctest -C ${{env.BUILD_TYPE}}
-
-    #- run: cd {{github.workspace}}/unitTest
-    #- run: ./matrixTest
-    # go to unit test directory
-    # - run: cd {{github.workspace}}/unitTest
-    # run cmake
-    #- run: cmake .
-    # build the tests
-    # - run: make
-    # run the tests
-    #- run: ./matrixTest
