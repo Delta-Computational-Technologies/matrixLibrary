@@ -22,6 +22,17 @@ Starting in the root directory:
 3. `$ cd unitTest/`
 4. `$ ctest`
 
+## Roadmap
+Here is a list that includes functionality that I would like to add to this matrix library, but it is not a complete list, and priories may change:
+* Matrix Inverse
+* Matrix Determinant
+* multithreaded matrix add/subtract
+* multithreaded scalar multiply
+* multithreaded hadamard product
+* Strassen improvement to matrix multiply
+* Multithreaded Strassen matrix multiply
+* Cuda ...
+
 ## License
 Copyright &copy; Delta Computational Technologies 2024
 
